@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>covid-19 tool</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<style type="text/css">
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+<body>
+  <div id="app">
+    <br>
+    <div class="text-center">
+      <div style="margin-bottom: 1%;"> 輸入國家正確名字 => <input type="text" v-model="inputSearch"></div>
+      <p style="text-align:left;margin-left: 1%;" v-if="nowSearch">Search result: {{ nowSearch }}</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Country</th>
+          <th scope="col">Date</th>
+          <th scope="col">最新確診人數</th>
+          <th scope="col">最新死亡人數</th>
+          <th scope="col">最新康復人數</th>
+          <th scope="col">總確診人數</th>
+          <th scope="col">總死亡人數</th>
+          <th scope="col">總恢復人數</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-if="storageState">
+          <td v-cloak>{{countryExist}}</td>
+        </tr>
+        <tr v-for="(list,index) in inputTextMactch" v-cloak>
+          <td>{{ inputTextMactch[index].Country }}</td>
+          <td>{{ inputTextMactch[index].Date }}</td>
+          <td>{{ inputTextMactch[index].NewConfirmed }}</td>
+          <td>{{ inputTextMactch[index].NewDeaths }}</td>
+          <td>{{ inputTextMactch[index].NewRecovered }}</td>
+          <td>{{ inputTextMactch[index].TotalConfirmed }}</td>
+          <td>{{ inputTextMactch[index].TotalDeaths }}</td>
+          <td>{{ inputTextMactch[index].TotalRecovered }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        countryExist: 'No this country.',
+        storageState: false,
+        summaryDatasLength: '',
+        summaryDatas: '',
+
+        inputSearch: '',
+        inputSearchToLowerCase: '',
+        inputTextMactch: [],
+      },
+      created() {
+        axios.get('https://api.covid19api.com/summary').then((res) => {
+          console.log(res);
+          this.summaryDatas = res.data;
+          this.summaryDatasLength = res.data.Countries.length;
+        })
+      },
+      computed: {
+        nowSearch: function () {
+          this.inputTextMactch = [];
+          this.inputSearchToLowerCase = this.inputSearch.toLowerCase();
+          for (let i = 0, count = 0; i <= this.summaryDatasLength - 1; i++) {
+            if (this.summaryDatas.Countries[i].Country.toLowerCase().match(this.inputSearchToLowerCase)) {
+              // console.log(this.summaryDatas.Countries[i].Country);
+
+              this.inputTextMactch[count] = this.summaryDatas.Countries[i];
+              count++;
+              //console.log(this.inputTextMactch);
+            }
+            // v-if state , if length=0 == No datas == print ('no this country')
+            (this.inputTextMactch.length == 0) ? this.storageState = true : this.storageState = false
+          }
+          return this.inputSearch;
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>
