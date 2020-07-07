@@ -12,7 +12,8 @@
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <style type="text/css">
-  [v-cloak] {
+  [v-cloak],
+  .active {
     display: none;
   }
 </style>
@@ -38,8 +39,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="storageState">
-          <td v-cloak>{{countryExist}}</td>
+        <tr>
+          <td v-cloak :class="{ active: isActive}">{{ countryExist  }}</td>
         </tr>
         <tr v-for="(list,index) in inputTextMactch" v-cloak>
           <td>{{ inputTextMactch[index].Country }}</td>
@@ -60,7 +61,7 @@
       el: '#app',
       data: {
         countryExist: 'No this country.',
-        storageState: false,
+        isActive: true,
         summaryDatasLength: '',
         summaryDatas: '',
 
@@ -87,8 +88,8 @@
               count++;
               //console.log(this.inputTextMactch);
             }
-            // v-if state , if length=0 == No datas == print ('no this country')
-            (this.inputTextMactch.length == 0) ? this.storageState = true : this.storageState = false
+            // length=0 , isActive = false , remove class , print 'No this country.'
+            (this.inputTextMactch.length == 0) ? this.isActive = false : this.isActive = true
           }
           return this.inputSearch;
         }
