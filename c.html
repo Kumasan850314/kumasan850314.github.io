@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap 5.0 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./layout.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="wrapper">
+            <input style="display: none;" id="toggle" type="checkbox">
+            <div class="menu">
+                <label class="toggle-container" for="toggle">
+                    <span class="button button-toggle material-icons">menu</span>
+                </label>
+            </div>
+            <aside class="sidebar">
+                <div class="logo">
+                    <span class="material-icons">headphones</span>
+                    <a href="">MUSIC</a>
+                </div>
+                <div class="profile">
+                    <div class="profile-info">
+                        <span class="material-icons align-middle">face</span>
+                        <span>Profile</span>
+                    </div>
+                </div>
+                <div class="nav-left">
+                    <div>
+                        <a href="">
+                            <span class="material-icons align-middle">library_music</span>
+                            <router-link to="/Home">
+                                <span>新歌排行榜一覽</span>
+                            </router-link>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            <span class="material-icons align-middle">favorite</span>
+                            <router-link to="/Favorite">
+                                <span>已收藏的歌曲</span>
+                            </router-link>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="">
+                            <span class="material-icons align-middle">search</span>
+                            <router-link to="/Search">
+                                <span>搜尋</span>
+                            </router-link>                            
+                            
+                        </a>
+                    </div>
+                </div>
+            </aside>
+            <main class="main">
+                <header class="navbar-top">
+                    <!-- 渲染 route 的位置 -->
+                    <router-view></router-view>
+                    <!-- <span>新歌排行榜</span> -->
+                </header>
+                <section class="content">
+                    <div id="v-model-select-dynamic" class="select-div-ChartPlaylist">
+                        <span>選擇排行榜</span>
+                        <select class="form-select text-center" v-model="selected" @change="getChartPlaylist()">
+                            <option disabled value="">Please select one</option>
+                            <option v-for="option in newHitsPlaylists" :value="option.id">
+                                {{ option.title }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table" v-if="responseObject.length > 0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col" colspan="2">標題</th>
+                                    <th scope="col">專輯</th>
+                                    <th scope="col" style="min-width: 105px;">
+                                        <!-- <span class="btn btn-outline-primary" v-on:click="search()">search</span> -->
+                                        發行日
+                                        <span v-show="sortSwitchIcon" class="material-icons align-bottom"
+                                            v-on:click="sorted('sort')">expand_more</span>
+                                        <span v-show="reverseSwitchIcon" class="material-icons align-bottom"
+                                            v-on:click="sorted('reverse')">expand_less</span>
+                                    </th>
+                                    <th scope="col">專輯歌曲</th>
+                                    <th scope="col" style="min-width: 60px;">試聽</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="newSorted.length!==0">
+                                <tr v-for="(newSortedList,index) in newSorted" v-cloak>
+                                    <td>{{index+1}}</td>
+                                    <td><img v-bind:src="newSortedList[1].album.images[0].url" style="width:50px;" />
+                                    </td>
+                                    <td>
+                                        {{ newSortedList[1].album.artist.name }} <br>
+                                        {{ newSortedList[1].name }}
+                                    </td>
+                                    <td>{{ newSortedList[1].album.name }}</td>
+                                    <td>{{ newSortedList[1].album.release_date }}</td>
+                                    <td>
+                                        <span class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"
+                                            v-on:click="albums(newSortedList[1].album.id, newSortedList[1].album.name)"
+                                            data-toggle="modal" data-target="#myModal">Check
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a :href="newSortedList[1].url" target="_blank">
+                                            <span class="material-icons">shortcut</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tbody v-if="newSorted.length===0">
+                                <tr>
+                                    <!-- <td v-cloak :class="{ active: isActive}">{{ countryExist  }}</td> -->
+                                </tr>
+                                <tr v-for="(responseObjectList,index) in responseObject" v-cloak>
+                                    <td>{{index+1}}</td>
+                                    <td><img v-bind:src="responseObjectList.album.images[0].url" style="width:50px;" />
+                                    </td>
+                                    <td>
+                                        {{ responseObjectList.album.artist.name }} <br>
+                                        {{ responseObjectList.name }}
+                                    </td>
+                                    <td>{{ responseObjectList.album.name }}</td>
+                                    <td>{{ responseObjectList.album.release_date }}</td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <span class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"
+                                            v-on:click="albums(responseObjectList.album.id, responseObjectList.album.name)"
+                                            data-toggle="modal" data-target="#myModal">Check</span>
+                                    </td>
+                                    <td>
+                                        <a :href="responseObjectList.url" target="_blank">
+                                            <span class="material-icons">shortcut</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{ albumsName }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <template v-if="albumsObject.length!==0">
+                                        <div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Song Lists</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="item,index in albumsObject">
+                                                        <td>{{ item.name }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal end -->
+                </section>
+                <footer class="footer"></footer>
+            </main>
+        </div>
+    </div>
+
+</body>
+<!-- vue 3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+<!-- vue router -->
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script src="./route.js"></script>
+<!-- axios -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script>
+    const router = new VueRouter({
+        routes
+    })
+    var app = new Vue({
+        router,
+        el: '#app',
+        data: {
+            // for select option
+            selected: "",
+            chartPlaylist: "", // created() 取得排行榜資料
+            newHitsPlaylists: '',
+
+            // getNewHitsPlaylist()
+            response: [], // res.data 原始資料
+            responseObject: {}, // this.response.tracks.data 篩選我用的到的資料
+
+            // sorted()
+            newSorted: [], // 拿來存 responseObject 排序後的資料
+
+            // albums()
+            albumsObject: "", // 拿來存專輯列表的歌曲
+            albumsName: "", // 拿來存 onclick 的專輯名稱參數
+
+            // sortedIconToggle()
+            sortSwitchIcon: true, // 正序
+            reverseSwitchIcon: false, // 反序
+
+
+        },
+        created() {
+            // 取得所有排行榜資料放進 select option 
+            axios({
+                    method: 'get',
+                    url: "https://api.kkbox.com/v1.1/charts?territory=TW",
+                    headers: {
+                        'accept': "application/json",
+                        'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                    }
+                })
+                .then((res) => {
+                    this.chartPlaylist = res.data.data
+                    // console.log(this.chartPlaylist)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+
+            axios({
+                    method: 'get',
+                    url: 'https://api.kkbox.com/v1.1/new-hits-playlists',
+                    params: {
+                        "territory": "TW",
+                    },
+                    headers: {
+                        'accept': "application/json",
+                        'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                    }
+                })
+                .then((res) => {
+                    this.newHitsPlaylists = res.data.data
+                    console.log(this.newHitsPlaylists)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+
+        },
+        methods: {
+            // 取得 select 選取的排行榜
+            getChartPlaylist: function () {
+                this.newSorted = ''
+                this.responseObject = ''
+                axios({
+                        method: 'get',
+                        url: `https://api.kkbox.com/v1.1/charts/${this.selected}`,
+                        params: {
+                            "territory": "TW",
+                        },
+                        headers: {
+                            'accept': "application/json",
+                            'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                        }
+                    })
+                    .then((res) => {
+                        this.response = res.data
+                        this.responseObject = this.response.tracks.data
+                        console.log(this.responseObject)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            },
+            // 10.17 12:52 暫時沒用到
+            getNewHitsPlaylist: function (url) {
+                // console.log(url)
+                this.newSorted = ''
+                this.responseObject = ''
+
+                axios({
+                        method: 'get',
+                        url: `https://api.kkbox.com/v1.1/new-hits-playlists/${url}`,
+                        params: {
+                            "territory": "TW",
+                        },
+                        headers: {
+                            'accept': "application/json",
+                            'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                        }
+                    })
+                    .then((res) => {
+                        this.response = res.data
+                        this.responseObject = this.response.tracks.data
+                        console.log(this.responseObject)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            },
+            sorted: function (m) {
+                this.sortedIconToggle()
+                // m = sort/reverse 正/反序
+                // 1.把物件轉陣列 2.在把日期字串轉成日期格式,sort在做反序排列 3.正序就反轉
+                this.newSorted = Object.entries(this.responseObject);
+
+                this.newSorted.sort(function (a, b) {
+                    return Date.parse(a[1].album.release_date) - Date.parse(b[1].album.release_date)
+                });
+
+                if (m == "sort")
+                    this.newSorted.reverse()
+                // console.log(this.newSorted)
+            },
+            // 切換正反序狀態
+            sortedIconToggle: function () {
+                this.sortSwitchIcon = !this.sortSwitchIcon
+                this.reverseSwitchIcon = !this.reverseSwitchIcon
+            },
+            // 還沒用到 search 9/28.5:42
+            search: function () {
+                axios({
+                        method: 'get',
+                        url: "https://api.kkbox.com/v1.1/search",
+                        params: {
+                            "q": "不搖滾 (feat. 告五人)",
+                            "territory": "TW",
+                            "limit": "50",
+                        },
+                        headers: {
+                            'accept': "application/json",
+                            'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                        }
+                    })
+                    .then((res) => {
+                        this.response = res.data
+                        this.responseObject = this.response.tracks.data
+                        console.log(this.responseObject)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            },
+            // s = 專輯ID, n = 專輯名稱,傳去 modal 用
+            albums: function (s, n) {
+                this.albumsName = ''
+                if (n)
+                    this.albumsName = n
+                axios({
+                        method: 'get',
+                        url: `https://api.kkbox.com/v1.1/albums/${s}/tracks`,
+                        params: {
+                            "territory": "TW",
+                        },
+                        headers: {
+                            'accept': "application/json",
+                            'Authorization': "Bearer " + "4yWiV8IOgnrXVW33YWTClw=="
+                        }
+                    })
+                    .then((res) => {
+                        this.response = res.data
+                        this.albumsObject = this.response.data
+                        console.log(this.albumsObject)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            }
+        },
+        computed: {},
+        mounted() {
+            location.href = './c.html#/home'
+        }
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous">
+</script>
+
+</html>
