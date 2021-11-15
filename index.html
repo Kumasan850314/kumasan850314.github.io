@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="favicon.ico"><title>merchandise_record</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script><script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script><script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"><link href="js/about.dc0b435c.js" rel="prefetch"><link href="css/app.e2dc3448.css" rel="preload" as="style"><link href="js/app.0b5156ea.js" rel="preload" as="script"><link href="js/chunk-vendors.49a10a6e.js" rel="preload" as="script"><link href="css/app.e2dc3448.css" rel="stylesheet"></head><body><div id="app"></div><script src="js/chunk-vendors.49a10a6e.js"></script><script src="js/app.0b5156ea.js"></script></body><script>$(function () {
+  $('input[name="datefilter"]').daterangepicker({
+    autoUpdateInput: false,
+    locale: {
+      cancelLabel: "Clear",
+    },
+  });
+
+  $('input[name="datefilter"]').on(
+    "apply.daterangepicker",
+    function (ev, picker) {
+      $(this).val(
+        picker.startDate.format("YYYY/MM/DD") +
+          " - " +
+          picker.endDate.format("YYYY/MM/DD")
+      );
+    }
+  );
+
+  $('input[name="datefilter"]').on(
+    "cancel.daterangepicker",
+    function (ev, picker) {
+      $(this).val("");
+    }
+  );
+});</script></html>
