@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+  <title>Online HTML Editor</title>
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <style>
+    .text-style {
+      background-color: #F2E199;
+      line-height: 1.2em;
+      padding: 10px;
+    }
+
+    .sub-text-style {
+      background-color: #FFE7F5;
+      text-align: center;
+      padding: 5px;
+    }
+    .has-20angle{
+      background: #f5f5d8;
+    }
+  </style>
+  <body id="app">
+    <h2 class="text-center text-style ">原礦換星月卡簡易計算機</h2>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">你有多少原礦？</span>
+        <input type="text" autocomplete="off" v-model="input" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        <span class="input-group-text" v-if="input>0">共可以換成 {{Math.floor(input/734)}} 張星月指數卡（ {{ Math.floor(input/734)*28 }} 藍水晶）唷～</span>   
+      </div>
+    
+    <h2 class="text-center text-style">天使輪迴數據（背景顏色標記有20檔天使）</h2>
+    <div style="overflow-x:auto;">
+      <h3 class="text-center sub-text-style">有獲得20檔天使紀錄</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">輪迴前</th>
+            <th scope="col">輪迴後</th>
+            <th scope="col">轉數</th>
+            <th scope="col">天使</th>
+            <th scope="col">蛋數</th>
+            <th scope="col">給的狗比例</th>
+          </tr>
+        </thead>
+        <tbody> <!-- 這區是 20檔 -->
+          <tr class="has-20angle">
+            <td>20檔</td>
+            <td>22檔</td>
+            <td>二轉</td>
+            <td class="text-success">1隻【20】</td>
+            <td>12顆</td>
+            <td>仙4(2)、20(7)、21(3)</td>
+          </tr>
+          <tr class="has-20angle">
+            <td>20檔</td>
+            <td>22檔</td>
+            <td>三轉</td>
+            <td class="text-success">5隻【20(3)、19(2)】</td>
+            <td>16顆</td>
+            <td></td>
+          </tr>
+          <tr class="has-20angle">
+            <td>20檔</td>
+            <td>22檔</td>
+            <td>三轉</td>
+            <td class="text-success">5隻【19(3)、20(2)】</td>
+            <td>15顆</td>
+            <td></td>
+            <!-- 2023/2/5 Amy Cheah -->
+          </tr>
+          <tr class="has-20angle">
+            <td>20檔</td>
+            <td>22檔</td>
+            <td>五轉</td>
+            <td class="text-success">1隻【20】</td>
+            <td>27顆</td>
+            <td></td>
+            <!-- 427063014 -->
+          </tr>
+        </tbody>
+        <tbody> <!-- 這區是 21檔 -->
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>21檔</td>
+            <td>三轉</td>
+            <td class="text-success">3隻【20】</td>
+            <td>12顆</td>
+            <td>20(8)、21(4)</td>
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>21檔</td>
+            <td>三轉</td>
+            <td class="text-success">3隻【20】</td>
+            <td>18顆</td>
+            <td>20(13)、21(5)</td>
+            <!-- 540001529 2023/2/1 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>21檔</td>
+            <td>四轉</td>
+            <td class="text-success">5隻【20】</td>
+            <td>24顆</td>
+            <td>20(11)、21(7)、仙4(6)</td>
+            <!-- 我 2023/2/15 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>22檔</td>
+            <td>三轉</td>
+            <td class="text-success">2隻【20】</td>
+            <td>18顆</td>
+            <td></td>
+            <!-- 543373098 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>22檔</td>
+            <td>三轉</td>
+            <td class="text-success">3隻【20】</td>
+            <td>18顆</td>
+            <td>20(11)、21(7)</td>
+            <!-- 林意萍 2023/2/14 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>22檔</td>
+            <td>四轉</td>
+            <td class="text-success">4隻【20】</td>
+            <td>18顆</td>
+            <td>20(12)、21(6)</td>
+            <!-- 林意萍 2023/2/9 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td>22檔</td>
+            <td>四轉</td>
+            <td class="text-success">2隻【20】</td>
+            <td>24顆</td>
+            <td>20(11)、21(8)、仙4(5) 🌞四轉➙22檔 </td>
+            <!-- me 2023/3/10 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>21檔</td>
+            <td style="color:#0d6efd">23檔</td>
+            <td>三轉</td>
+            <td class="text-success">1隻【20】</td>
+            <td>15顆</td>
+            <td>20(7)、21(6)、22(2)　 🌞21➙22➙23 </td>
+            <!-- me 2023/3/10 -->
+          </tr>
+        </tbody>
+        <tbody> <!-- 這區是 仙4 -->
+          <tr class="has-20angle">
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>三轉</td>
+            <td class="text-success">3隻【19(2)、20】</td>
+            <td>18顆</td>
+            <td>19(11)、20(4)、21(2)、仙4(1)</td>
+            <!-- 林意萍 2023/2/2 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>三轉</td>
+            <td class="text-success">4隻【19(2)、20(2)】</td>
+            <td>18顆</td>
+            <td>19(3)、20(6)、21(5)、仙4(3)、神1(1)</td>
+            <!-- 若水 2023/2/16 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>三轉</td>
+            <td class="text-success">2隻【20】</td>
+            <td>19顆</td>
+            <td></td>
+            <!-- 485968876 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>五轉</td>
+            <td class="text-success">2隻【20】</td>
+            <td>31顆</td>
+            <td></td>
+            <!-- 543656064 -->
+          </tr>
+          <tr class="has-20angle">
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>七轉</td>
+            <td class="text-success">2隻【19(1)、20(1)】</td>
+            <td>17顆</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- 沒有獲得20檔天使區 -->
+      <h3 class="text-center sub-text-style">沒有獲得20檔天使、失敗紀錄</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">輪迴前</th>
+            <th scope="col">輪迴後</th>
+            <th scope="col">轉數</th>
+            <th scope="col">天使</th>
+            <th scope="col">蛋數</th>
+            <th scope="col">給的狗比例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>仙4</td>
+            <td>仙4</td>
+            <td>三轉</td>
+            <td class="text-success">2隻【19】</td>
+            <td>18顆</td>
+            <td>19(10)、20(2)、21(5)、仙4(1)</td>
+            <!-- ME 2023/2/3 -->
+          </tr>
+          <tr>
+            <td>20檔王公</td>
+            <td>20檔王公</td>
+            <td>三轉</td>
+            <td class="text-success">2隻【19】</td>
+            <td>18顆</td>
+            <td>19(14)、20(4)</td>
+            <!-- ME 2023/2/9 -->
+          </tr>
+          <tr>
+            <td>20檔</td>
+            <td>21檔</td>
+            <td>三轉</td>
+            <td class="text-success">2隻【19】</td>
+            <td>15顆</td>
+            <td>19(13)、20(2)</td>
+          </tr>
+           <tr>
+            <td>20檔天使</td>
+            <td>21檔</td>
+            <td>三轉</td>
+            <td class="text-success">4隻【19】</td>
+            <td>18顆</td>
+            <td></td>
+            <!-- 若水 -->  
+          </tr>
+          <tr>
+            <td>20檔天使</td>
+            <td>21檔</td>
+            <td>四轉</td>
+            <td class="text-success">4隻【19】</td>
+            <td>29顆</td>
+            <td></td>
+            <!-- 林旺來 -->
+          </tr>
+          <tr>
+            <td>20檔天使</td>
+            <td>21檔</td>
+            <td>四轉</td>
+            <td class="text-success">7隻【19】</td>
+            <td>24顆</td>
+            <td></td>
+            <!-- 雪雁 2023/2/2 -->
+          </tr>
+          <tr>
+            <td>20檔天使</td>
+            <td>21檔</td>
+            <td>四轉</td>
+            <td class="text-success">3隻【19】</td>
+            <td>21顆</td>
+            <td>19(16)、20(5)</td>
+            <!-- 543300059 -->
+          </tr>
+          <tr>
+            <td>20檔天使</td>
+            <td>21檔王公</td>
+            <td>四轉</td>
+            <td class="text-success">4隻【19】</td>
+            <td>21顆</td>
+            <td>19(16)、20(5)</td>
+            <!-- 若水 2/10 -->
+          </tr>
+          <tr>
+            <td>20檔天使</td>
+            <td>22檔</td>
+            <td>五轉</td>
+            <td class="text-success">1隻【19】</td>
+            <td>24顆</td>
+            <td>19、20較多；21、22較少</td>
+          </tr>
+          <tr style="border-top:2px solid #F2E199;">
+            <td>20檔天使</td>
+            <td>20檔</td>
+            <td>二轉</td>
+            <td class="text-muted">0隻</td>
+            <td>12顆</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>20檔</td>
+            <td>22檔</td>
+            <td>六轉</td>
+            <td class="text-muted">0隻</td>
+            <td>21顆</td>
+            <td>20(7)、21(14)</td>
+          </tr>
+          <tr>
+            <td>21檔</td>
+            <td>23檔</td>
+            <td>六轉</td>
+            <td class="text-muted">0隻</td>
+            <td>?</td>
+            <td>22、23檔</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- 19、20 檔天使升天獎勵 -->
+    <h3 class="text-center text-style">19、20 檔天使升天獎勵</h3>
+    <h5 class="sub-text-style">出售天庭錘＆天庭精油可獲得的原礦</h5>
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">檔級</th>
+            <th scope="col">10級</th>
+            <th scope="col">11級</th>
+            <th scope="col">12級</th>
+            <th scope="col">13級</th>
+            <th scope="col">14級</th>
+            <th scope="col">15級</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>19</td>
+            <td>7840</td>
+            <td>8400</td>
+            <td>9040</td>
+            <td>9800</td>
+            <td>10640</td>
+            <td>11680</td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td>11320</td>
+            <td>12000</td>
+            <td>12680</td>
+            <td>13560</td>
+            <td>14600</td>
+            <td>15840</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h5 class="sub-text-style">原礦換算藍水晶（自行四捨五入方便兌換星月卡～）</h5>
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">檔級</th>
+            <th scope="col">10級</th>
+            <th scope="col">11級</th>
+            <th scope="col">12級</th>
+            <th scope="col">13級</th>
+            <th scope="col">14級</th>
+            <th scope="col">15級</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>19 <br>≈幾張星月卡</td>
+            <td>299<br>10.6張</td>
+            <td>320<br>11.4張</td>
+            <td>344<br>12.2張</td>
+            <td>373<br>13.3張</td>
+            <td>405<br>14.4張</td>
+            <td>445<br>15.8張</td>
+          </tr>
+          <tr>
+            <td>20<br>≈幾張星月卡</td>
+            <td>431<br>15.3張</td>
+            <td>457<br>16.3張</td>
+            <td>483<br>17.2張</td>
+            <td>517<br>18.4張</td>
+            <td>556<br>19.8張</td>
+            <td>604<br>21.5張</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin: 5px;text-center" class="row" >
+      <div class="col-12 col-sm-6 col-md-4" >
+      <p class='sub-text-style'><b>原礦換藍水晶簡易流程：</b></p>
+      <p>1. 購買雙星水</p>
+      <p>2. 加工雙星水→月光水</p>
+      <p>3. 加工月光水→巧克力</p>
+      <p>4. 加工巧克力→基因藥水</p>
+      <p>5. 加工基因藥水→星月指數卡</p>
+      <p>6. 賣出星月指數卡→藍水晶</p>
+      </div>
+      <div class="col-12 col-sm-3 col-md-4">
+        <p class='sub-text-style'><b>19檔天使升天給 </b></p>
+        <p>10) 20精油, 22錘子</p>
+        <p>11) 26精油, 23錘子</p>
+        <p>12) 34精油, 23錘子</p>
+        <p>13) 45精油, 25錘子</p>
+        <p>14) 58精油, 26錘子</p>
+        <p>15) 76精油, 27錘子</p>
+      </div>
+      <br>
+      <div class="col-12 col-sm-3 col-md-4">
+        <p class='sub-text-style'><b>20檔天使升天給 </b></p>
+        <p>10) 27精油, 32錘子</p>
+        <p>11) 35精油, 33錘子</p>
+        <p>12) 45精油, 34錘子</p>
+        <p>13) 59精油, 35錘子</p>
+        <p>14) 77精油, 35錘子</p>
+        <p>15) 100精油, 37錘子</p>
+      </div>
+    </div>
+    
+    <h2 class="text-center text-style ">妖神殿</h2>
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">檔級</th>
+            <th scope="col">神祭</th>
+            <th scope="col">蝶妖蛋</th>
+            <th scope="col">妖神蛋</th>
+            <th scope="col">備註</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>26</td>
+            <td>四星</td>
+            <td>重生犬(59)</td>
+            <td>重生犬(12)、25散仙(3)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>四星</td>
+            <td>沒紀錄</td>
+            <td> 25散仙(1)、26散仙(3)、27散仙(2)、24重生(1)、精靈(2)輪迴(3)鳳凰犬王(4) </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>四星</td>
+            <td>23/24重生犬、低花色隱藏犬&絲蘿並蒂聯袂犬</td>
+            <td>25散仙(2)、26散仙(1)、重組(2)精靈(1)輪迴(2)鳳凰犬王(2)</td>
+            <td>2023/1/18</td>
+          </tr>
+          <tr>
+            <td>27</td>
+            <td>三星</td>
+            <td>沒紀錄</td>
+            <td>25散仙(2)、24重生(4)、精靈(1)輪迴(2)鳳凰犬王(2)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>三星</td>
+            <td>25散仙</td>
+            <td>重組犬王(2)、25散仙(1)、26散仙(2)、28散仙(1) </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>28</td>
+            <td>四星</td>
+            <td>沒紀錄</td>
+            <td>25散仙(1)、26散仙(3)、27散仙(2)、鳳凰(5)、輪迴犬王(2)</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>29</td>
+            <td>三星</td>
+            <td>25、26散仙</td>
+            <td>重組(4)、精靈犬王(3)、27散仙(3)、28散仙(1)、29散仙(1)</td>
+            <td>2023/1/7</td>
+          </tr>
+          <tr>
+            <td>30</td>
+            <td>三星</td>
+            <td>26(27)、27(26)</td>
+            <td>精靈犬王(3)、27、28(4)、29(2)</td>
+            <td>2023/1/19</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>    
+    
+    <hr>
+    <h3 class="text-center text-style">真仙犬挖礦紀錄</h3>
+    <div style="overflow-x:auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">類別</th>
+            <th scope="col">五彩水晶</th>
+            <th scope="col">藍水晶</th>
+            <th scope="col">粉水晶</th>
+            <th scope="col">水晶原礦</th>
+            <th scope="col">次數</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>五彩 48 小時 <br>
+              （1五彩水晶 = 
+              {{ (crystal2/times).toFixed(2) }}
+              藍水晶）</td>
+            <td>{{crystal1}}</td>
+            <td>{{crystal2}}</td>
+            <td>/</td>
+            <td>{{crystal3}}</td>
+            <td>{{times}}</td>
+          </tr>
+          <tr>
+            <td>藍水晶 16 小時 <br>（1藍水晶 = 38.75粉水晶）</td>
+            <td>/</td>
+            <td>忘了記</td>
+            <td>15503</td>
+            <td>1094</td>
+            <td>100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+    <h2 class="text-center text-style ">蘊仙精油孵蛋紀錄-晨曦破曉
+</h2>
+  <div class="text-center">
+    <p>28真仙 親密的蛋 神2/神3</p>
+    <p>28真仙 子母露蛋 神2</p>
+    <p>30真仙 子母露蛋 29檔</p>
+  </div>
+<script>
+
+  const { createApp } = Vue
+
+  createApp({
+    data() {
+      return {
+        crystal1: 11, // 五彩水晶
+        crystal2: 606, // 藍水晶
+        crystal3: 1058, // 水晶原礦
+        times: 23, // 五彩水晶挖礦次數
+        
+        input: '',
+      }
+    },
+  }).mount('#app')
+</script>
